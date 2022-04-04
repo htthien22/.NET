@@ -1,0 +1,88 @@
+﻿@model Model.Entity.Tbl_Product
+@{
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+<h2>Sửa thông tin sản phẩm</h2><br />
+<script src="~/Scripts/ckeditor/ckeditor.js"></script>
+<script src="~/Scripts/ckfinder/ckfinder.js"></script>
+@using (Html.BeginForm())
+{
+
+    <div class="form-horizontal">
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Mã sản phẩm:</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="Code" disabled name="Code" type="text" value="@Model.Code" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Tên sản phẩm:</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="Name" name="Name" type="text" value="@Model.Name" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Giá:</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="Price" name="Price" type="text" value="@Model.Price" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Giá khuyến mại:</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="PromotionPrice" name="PromotionPrice" type="text" value="@Model.PromotionPrice" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Số lượng:</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="Quantity" name="Quantity" type="number" value="@Model.Quantity" />
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Hình ảnh:</label>
+            <div class="col-sm-6">
+                <input class="form-control" id="Image" name="Image" type="text" value="@Model.Image" />
+                <a id="btnSelectImage" onclick="ckfin()" class="btn btn-info" href="#">Chọn ảnh</a>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Danh mục:</label>
+            <div class="col-sm-6">
+                <select style="width:150px;height:30px;border: 1px #009ce9 solid;background:white;color:black" id="color" class="single-option-selector" name="CategoryID">
+                    @foreach (var item in ViewBag.CategoryID)
+                    {
+                        <option value="@item.ID">@item.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="container">
+            <div style="width:70%;" class="row">
+                <strong> Mô tả:</strong><textarea class="ckeditor" name="Description">@Model.Description</textarea>
+            </div>
+        </div><br />
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <input type="submit" class="btn btn-success" value="Lưu" />
+            </div>
+        </div>
+
+    </div>
+}
+
+<script>
+    function ckfin() {
+        var finder = new CKFinder();
+        finder.selectActionFunction = function (url) {
+            $('#Image').val(url);
+        };
+        finder.popup();
+    }
+
+    var editor = CKEDITOR.replace('txtContent', {
+        customConfig: '/assets/admin/js/plugins/ckeditor/config.js',
+    });
+</script>
+

@@ -1,0 +1,383 @@
+﻿@model Model.Entity.Tbl_Product
+@using Model.DAO
+@using Ace_Sports_Shop.Common;
+@{
+    ViewBag.Title = "ProductDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ProductDAO dao = new ProductDAO();
+    var name = (List<Model.Entity.Tbl_ProductCategory>)ViewBag.name;
+    var sugg = (List<Model.Entity.Tbl_Product>)ViewBag.product;
+    var session = (UserLogin)Session[Ace_Sports_Shop.Common.CommonStand.User_Session];
+
+}
+
+<div class="breadcrumbs">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <ul>
+                    <li class="home"> <a href="@Url.Action("Index","Home")" title="Go to Home Page">Trang Chủ</a> <span>/</span> </li>
+                    <li class="home"> <a href="" title="Go to Home Page">@Model.Name</a> <span>/</span> </li>
+                    @foreach (var item in name)
+                    {
+                        <li> <a href="" title="">@item.Name</a> <span>/ </span> </li>}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumbs End -->
+<!-- Main Container -->
+<section class="main-container col1-layout">
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                <div class="col-main">
+                    <div class="product-view">
+                        <div class="product-essential">
+                            <form action="#" method="post" id="product">
+                                <div class="product-img-box col-lg-5 col-sm-6 col-xs-12">
+                                    <div class="new-label new-top-left"> New </div>
+                                    <div class="product-image">
+                                        <div class="product-full">
+                                            <img id="product-zoom" src="@Model.Image" data-zoom-image="@Model.Image" alt="product-image" />
+                                        </div>
+                                        <div class="more-views">
+                                            <div class="slider-items-products">
+                                                <div id="gallery_01" class="product-flexslider hidden-buttons product-img-thumb">
+                                                    <div class="slider-items slider-width-col4 block-content owl-carousel owl-theme" style="opacity: 1; display: block;">
+                                                        <div class="owl-wrapper-outer">
+                                                            <div class="owl-wrapper" style="width: 1520px; left: 0px; display: block; transition: all 500ms ease 0s; transform: translate3d(-304px, 0px, 0px);">
+                                                                <div class="owl-item" style="width: 152px;">
+                                                                    <div class="more-views-items">
+                                                                        <a href="#" data-image="@Model.Image" data-zoom-image="@Model.Image">
+                                                                            <img id="product-zoom" src="@Model.Image" alt="product-image">
+                                                                        </a>
+                                                                    </div>
+                                                                </div><div class="owl-item" style="width: 152px;">
+                                                                    <div class="more-views-items">
+                                                                        <a href="#" data-image="@Model.Image" data-zoom-image="@Model.Image">
+                                                                            <img id="product-zoom" src="@Model.Image" alt="product-image">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="owl-item" style="width: 152px;">
+                                                                    <div class="more-views-items">
+                                                                        <a href="#" data-image="@Model.Image" data-zoom-image="@Model.Image">
+                                                                            <img id="product-zoom" src="@Model.Image" alt="product-image">
+                                                                        </a>
+                                                                    </div>
+                                                                </div><div class="owl-item" style="width: 152px;">
+                                                                    <div class="more-views-items">
+                                                                        <a href="#" data-image="@Model.Image" data-zoom-image="@Model.Image">
+                                                                            <img id="product-zoom" src="@Model.Image" alt="product-image">
+                                                                        </a>
+                                                                    </div>
+                                                                </div><div class="owl-item" style="width: 152px;">
+                                                                    <div class="more-views-items">
+                                                                        <a href="#" data-image="@Model.Image" data-zoom-image="@Model.Image">
+                                                                            <img id="product-zoom" src="@Model.Image" alt="product-image">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="owl-controls clickable">
+                                                            <div class="owl-buttons">
+                                                                <div class="owl-prev"><a class="flex-prev"></a></div>
+                                                                <div class="owl-next"><a class="flex-next"></a></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- end: more-images -->
+                                </div>
+                                <div class="product-shop col-lg-7 col-sm-6 col-xs-12">
+
+                                    <div class="product-name">
+                                        <h3 style="text-transform:uppercase">@Model.Name</h3>
+                                    </div>
+                                    <div class="rating">
+                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i>
+                                        <p class="rating-links"> <a href="#">4 Đánh giá()</a> <span class="separator">|</span> <a href="#"><i class="fa fa-pencil"></i> Viết đánh giá</a> </p>
+                                    </div>
+                                    <div class="price-block">
+                                        <div class="price-box">
+                                            <p class="old-price"> <span class="price-label"></span> <span class="price"> @dao.formatNumber(Model.Price) </span> </p>
+                                            <p class="special-price"> <span class="price-label"></span> <span style="color:#e72304" class="price"> @dao.formatNumber(Model.PromotionPrice) </span> </p>
+                                        </div>
+                                    </div>
+                                    <div class="info-orther">
+                                        @if (Model.Warranty > 0)
+                                        {
+                                            <p>Còn: <strong class="in-stock">@Model.Warranty sản phẩm</strong></p>
+                                        }
+                                        else
+                                        {
+                                            <p><strong class="in-stock"> HẾT HÀNG</strong></p>
+                                        }
+
+                                    </div>
+                                    <div class="short-description">
+                                        <h2>Quick Overview</h2>
+                                        <p>
+                                            Mẫu quần áo bóng đá <a href="#">@Model.Name</a> sân khách đây là mẫu quần áo bóng đá sân mùa giải mới của câu lạc bộ: <br />
+                                            Hàng VN: Giá lẻ: 90.000đ/1 bộ.<br />
+                                            – Từ 10 bộ trở lên: 85.000đ/1 bộ.<br />
+                                            Hàng Thái Lan F1: 195.000đ/1 áo – 260.000đ/1 bộ <br />
+                                            – Từ 10 bộ trở lên: 250.000đ/1 bộ
+                                        </p>
+                                    </div>
+                                    <div class="form-option">
+
+                                        <div class="attributes">
+                                            <div style="margin-top:15px;width:70px" class="attribute-label">Kích cỡ:</div>
+                                            <div class="attribute-list">
+                                                <select style="margin-top:8px;width:80px;border: 1px #009ce9 solid;background:white;color:black" id="size" class="single-option-selector" data-option="option2" id="product-select-option-1">
+                                                    <option value="S">S</option>
+                                                    <option value="M">M</option>
+                                                    <option value="L">L</option>
+                                                    <option value="XL">XL</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="add-to-box">
+                                            <div class="add-to-cart">
+                                                <div class="pull-left">
+                                                    <div class="custom pull-left">
+                                                        <label>Số lượng :</label>
+                                                        <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) result.value--;return false;" class="reduced items-count" type="button"><i class="fa fa-minus">&nbsp;</i></button>
+                                                        <input type="text" class="input-text qty" title="Qty" value="1" maxlength="12" id="qty" name="qty">
+                                                        <button onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;" class="increase items-count" type="button"><i class="fa fa-plus">&nbsp;</i></button>
+                                                    </div>
+                                                </div>
+                                                @if (Model.Warranty > 0)
+                                                {
+                                                    <button onclick="AddItem(@Model.ID)" type="button" class="button btn-cart"><span>Thêm Vào Giỏ</span> </button>
+                                                }
+                                                else
+                                                {
+                                                    <button type="button" class="button btn-cart"><span>HẾT Hàng</span> </button>
+                                                }
+                                            </div>
+                                            <div class="email-addto-box">
+                                                <ul class="add-to-links">
+                                                    <li>
+                                                        <a class="link-wishlist" href="wishlist.html">
+                                                            <span>Add to Wishlist</span>
+                                                        </a>
+                                                    </li>
+
+                                                </ul>
+                                            </div>
+                                            <br />
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-collateral col-lg-12 col-sm-12 col-xs-12">
+                    <div class="add_info">
+                        <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
+                            <li class="active"> <a href="#product_tabs_description" data-toggle="tab"> thông tin sản phẩm </a> </li>
+                            <li> <a href="#reviews_tabs" data-toggle="tab">Đánh giá</a> </li>
+
+                        </ul>
+                        <div id="productTabContent" class="tab-content">
+                            <div class="tab-pane fade in active" id="product_tabs_description">
+                                <div class="std">
+                                      @Html.Raw(Model.Description);
+                              
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="reviews_tabs">
+                                <div class="box-collateral box-reviews" id="customer-reviews">
+                                    @if (session != null)
+                                    {
+                                        <div class="box-reviews1">
+                                            <div class="form-add">
+
+                                                <fieldset>
+                                                    <input type="hidden" value="" class="validate-rating" name="validate_rating">
+                                                    <div class="review2">
+                                                        <ul>
+                                                            <li>
+                                                                <label class="required " for="review_field">Viết nhận xét về sản phẩm?<em>*</em></label>
+                                                                <div class="input-box">
+                                                                    <textarea style="margin: 4px 0px 0px; width: 1078px; height: 157px;" rows="5" cols="12" id="txtcontent" name="txtcontent"></textarea>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                        <div class="buttons-set">
+                                                            <button onclick="rate(@Model.ID,@session.ID)" class="button btn-add"><span>Gửi</span></button>
+                                                        </div>
+                                                    </div>
+                                                </fieldset>
+                                            </div>
+                                        </div> }
+                                    else
+                                    {
+
+                                        <div class="text-center">
+                                            <h3 class="text-danger"><strong>Bạn cần đăng nhập để đánh giá sản phẩm</strong></h3>
+                                        </div>
+                                        <div class="clear"></div>
+                                    }
+                                    <div class="box-reviews2">
+                                        <h3><strong>Khách hàng nhận xét</strong></h3>
+                                        <div class="box visible">
+                                            <ul>
+                                                <li>
+                                                    <table class="ratings-table">
+                                                        <colgroup>
+                                                            <col width="1">
+                                                            <col>
+                                                        </colgroup>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th></th>
+                                                                <td>
+                                                                    <div class="rating-box">
+                                                                        <div class="rating" style="width:100%;"></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th></th>
+                                                                <td>
+                                                                    <div class="rating-box">
+                                                                        <div class="rating" style="width:100%;"></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th></th>
+                                                                <td>
+                                                                    <div class="rating-box">
+                                                                        <div class="rating" style="width:100%;"></div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div class="review">
+                                                        @foreach (var item in ViewBag.rate)
+                                                        {
+                                                            <h6><a href="#">aa</a></h6>
+                                                            <p>Nhận xét lúc <a> @item.CreatedDate</a></p>
+                                                            <div class="review-txt">@item.Content</div>
+                                                        }
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="actions"> <a class="button view-all" id="revies-button" href="#"><span><span>Xem tất cả nhận xét</span></span></a> </div>
+                                    </div>
+                                    <div class="clear"></div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="container">
+    <div class="related-section">
+        <div class="slider-items-products">
+            <div class="related-block">
+                <div class="jtv-block-inner">
+                    <div class="block-title">
+                        <h2>SẢN PHẨM LIÊN QUAN</h2>
+                    </div>
+                </div>
+                <div id="related-products-slider" class="product-flexslider hidden-buttons">
+                    <div class="slider-items slider-width-col4 products-grid block-content">
+                        
+                        @foreach (var item in sugg)
+                        {
+                            <div class="item">
+                                <div class="item-inner">
+                                    <div class="item-img">
+                                        <div class="item-img-info">
+                                            <a class="product-image" title="Product Title Here" href="/san-pham/@item.MetaTitle-@item.ID"> <img src="@item.Image"> </a>
+                                            <div class="jtv-box-hover">
+                                                <ul class="add-to-links">
+                                                    <li><a class="link-quickview" href="quick_view.html"><i class="icon-magnifier-add icons"></i><span class="hidden">Quick View</span></a></li>
+                                                    <li><a class="link-wishlist" href="wishlist.html"><i class="icon-heart icons"></i><span class="hidden">Wishlist</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item-info">
+                                        <div class="info-inner">
+                                            <div class="item-title"> <a title="Product Title Here" href="/san-pham/@item.MetaTitle-@item.ID"> @item.Name </a> </div>
+                                            <div class="item-content">
+                                                <div class="rating"> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> </div>
+                                                <div class="item-price">
+                                                    <div class="price-box">
+                                                        <span class="regular-price">
+                                                            <p class="old-price"> <span class="price-label"></span> <span class="price"> @dao.formatNumber(item.Price) </span> </p>
+                                                            <p class="special-price"> <span class="price-label"></span> <span class="price"> @dao.formatNumber(item.PromotionPrice) </span> </p>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="action">
+                                                    <button class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>Xem chi tiết</span> </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function rate(id, idu) {
+        var content = $('#txtcontent').val();
+        if (content == '') {
+            swal("Thông báo", "Bạn cần phải viết nội dung đánh giá", "error")
+        } else {
+            $.ajax({
+                url: '/Product/RateProduct',
+                type: 'POST',
+                dataType: 'json',
+                data: {
+                    IDP: id,
+                    IDU: idu,
+                    Content: content
+                },
+                success: function (res) {
+                    if (res.status == true) {
+                        swal("Nhận xét sản phẩm thành công!!", {
+                            icon: "success",
+                        }).then(function () {
+                            window.location.href = window.location.href
+                        });
+                    } else {
+                        swal("Thông báo", "Bạn đã nhận xét sản phẩm này!!", "warning")
+                    }
+                }
+            });
+        }
+    }
+</script>
+

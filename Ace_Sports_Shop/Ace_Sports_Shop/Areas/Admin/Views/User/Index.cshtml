@@ -1,0 +1,310 @@
+﻿@model PagedList.IPagedList<Model.Entity.Tbl_User>
+@using PagedList.Mvc;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<script src="~/Content/sweet.js"></script>
+<h2>Thông Tin Khách Hàng</h2>
+<div class="text-warning">
+    @ViewBag.ProError
+</div>
+<hr />
+<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="btn btn-primary btn-default" onclick="show()" role="button">Thêm Người Dùng</a>
+            <div class="form-group input-group navbar-right">
+                @using (Ajax.BeginForm("Index", "Product", new AjaxOptions { InsertionMode = InsertionMode.Replace, HttpMethod = "Get" }))
+                {
+                    <input type="search" name="name" class="form-control" style="width:300px" placeholder="Nhập tên người dùng..." />
+                    <button class="btn btn-success" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                }
+            </div>
+        </div>
+        <div class="panel-body" style="width:100%;height:500px;overflow:auto;">
+            <div class="table-responsive">
+                <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table style="font-size:13px;" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">STT</th>
+                                        <th class="text-center">Tên đăng nhập</th>
+                                        <th class="text-center">Họ Tên</th>
+                                        <th class="text-center">Địa chỉ</th>
+                                        <th class="text-center">Email</th>
+                                        <th class="text-center">Điện thoại</th>
+                                        <th class="text-center">Ngày tạo</th>
+                                        <th class="text-center">Trạng thái</th>
+                                        <th class="text-right">Chức nănng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ int i = 0;}
+                                    @foreach (var item in Model)
+                                    {
+                                        i++;
+                                        <tr class="ng-scope">
+                                            <td class="text-center"><a class="btn-link ng-binding">@i</a></td>
+                                            <td class="text-center ng-binding">@item.UserName</td>
+                                            <td class="text-center ng-binding">@item.Name</td>
+                                            <td class="text-center ng-binding">@item.Address</td>
+                                            <td class="text-center ng-binding">@item.Email</td>
+                                            <td class="text-center ng-binding">@item.Phone</td>
+                                            <td class="text-center ng-binding">@item.CreatedDate</td>
+                                            <td class="text-center">
+                                                <span class="label label-table label-success ng-binding" data-id="@item.ID">@Html.Raw(item.Status ? "Hoạt động" : "Khoá") </span>
+                                            </td>
+                                            <td class="text-right">
+                                                <a onclick="UserEditU(@item.ID)" class="btn btn-xs btn-edit add-tooltip"><i class="fa fa-edit"></i></a>
+                                                <a onclick="delu(@item.ID)" class="btn btn-xs btn-danger add-tooltip"><i class="fa fa-times"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>
+
+<div class="modal fade" id="createuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Thêm người dùng</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span id="x" aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Tên đăng nhập:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="txtName" type="text" name="name" value="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Mật khẩu:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="txtPassWord" type="password" value="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Nhập lại mật khẩu:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="txtRePassWord" type="password" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" onclick="createuser()" class="btn btn-primary">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalEditU" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Sửa thông tin khách hàng</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span id="x" aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Tên đăng nhập:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" disabled id="edtuname" type="text" value="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Mật khẩu:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="edtpw" type="password" value="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Họ Tên:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="edtname" type="text" value="" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Số điện thoại:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="edtsdt" type="text" />
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Địa chỉ:</label>
+                    <div class="col-sm-6">
+                        <textarea class="form-control" id="edtadd" type="text" value=""></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Trạng thái:</label>
+                    <div class="col-sm-6">
+                        <select id="stt" class="mdb-select md-form colorful-select dropdown-primary">
+                            <option value="True">Hoạt động</option>
+                            <option value="False">Khóa</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="EditU()" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function show() {
+        $('#createuser').modal('show');
+    }
+    function createuser() {
+        var name = $('#txtName').val();
+        var pw = $('#txtPassWord').val();
+        var rpw = $('#txtRePassWord').val();
+        $.ajax({
+            url: '/Admin/User/Register',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                name: name,
+                pw: pw,
+                rpw: rpw
+            },
+            success: function (res) {
+                if (res.status == true) {
+                    swal(res.noti, {
+                        icon: "success",
+                    }).then(function () {
+                        $('#createuser').modal('hide');
+                        window.location.href = window.location.href
+                    });
+
+                } else {
+                    setTimeout(swal("Thông báo", res.noti, "error"), 300);
+                }
+            }
+        });
+
+    }
+    //delete order
+    function delu(id) {
+        swal({
+            title: "Bạn chắc chắn muốn xóa ?",
+            text: name,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/User/Delete",
+                        dataType: "json",
+                        data: { ID: id },
+                        success: function (response) {
+                            swal("Xóa thành công!", {
+                                icon: "success",
+                            }).then(function () {
+                                window.location.href = window.location.href
+                            });
+                        },
+                        failure: function (response) {
+                            swal(response.responseText);
+                        },
+                        error: function (response) {
+                            swal(response.responseText);
+                        }
+                    });
+
+                }
+            });
+    }
+
+
+    function UserEditU(ido) {
+        $.ajax({
+            url: '/Admin/User/GetUser',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                valueTrue: true,
+                valueFalse: false,
+                valueNull: undefined,
+                ID: ido,
+            },
+            success: function (res) {
+                if (res.status == true) {
+                    $('#myModalEditU').modal('show');
+                    $('#edtidd').val(res.ID);
+                    $('#edtuname').val(res.User);
+                    $('#edtpw').val(res.Pw);
+                    $('#edtname').val(res.Name);
+                    $('#edtsdt').val(res.Phone);
+                    $('#edtadd').text(res.Add);
+
+                } else {
+
+                    swal("Thông báo", "Thêm đơn hàng thất bại!", "error");
+                }
+            }
+        });
+
+    }
+    //edit post
+    function EditU() {
+        var u = $('#edtuname').val();
+        var pw = $('#edtpw').val();
+        var name = $('#edtname').val();
+        var phone = $('#edtsdt').val();
+        var add = $('#edtadd').text();
+        var stt = $('#stt').find(":selected").val();
+        $.ajax({
+            url: '/Admin/User/editUser',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                User: u,
+                Name: name,
+                Pw: pw,
+                Add: add,
+                Phone: phone,
+                Status: stt,
+            },
+            success: function (res) {
+                if (res.status == true) {
+                    swal("Cập nhật thành công!!", {
+                        icon: "success",
+                    }).then(function () {
+                        $('#myModalEdit').modal('hide');
+                        window.location.href = window.location.href
+                    });
+                } else {
+                    swal("Thông báo", "Thêm đơn hàng thất bại!", "error");
+                }
+            }
+        });
+
+    }
+</script>
+

@@ -1,0 +1,15 @@
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\Model.dll.config
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\Model.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\Model.pdb
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\EntityFramework.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\PagedList.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\PagedList.Mvc.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\EntityFramework.xml
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\PagedList.xml
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Debug\PagedList.Mvc.xml
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Debug\Model.csproj.CopyComplete
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Debug\Model.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Debug\Model.pdb

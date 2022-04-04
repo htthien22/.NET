@@ -1,0 +1,52 @@
+﻿@model List<Ace_Sports_Shop.Common.CartItem>
+@using Model.DAO
+@{
+    ProductDAO dao = new ProductDAO();
+}
+<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+    <div class="jtv-top-cart-box">
+        <!-- Top Cart -->
+        <div class="mini-cart">
+            <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle"> <a href=""> <span style="font-weight: bold;font-size: 13px;" class="cart_count">@Model.Count</span><span style="font-weight: bold;font-size: 13px;" class="price">SP /  @dao.formatNumber(Model.Sum(x => x.product.PromotionPrice * x.Quantity))</span> </a> </div>
+            <div>
+
+                <div class="jtv-top-cart-content">
+
+                    <!--block-subtitle-->
+                    @if (Model.Count > 0)
+                    {
+                        <ul class="mini-products-list" id="cart-sidebar">
+                            @foreach (var item in Model)
+                            {
+                                <li class="item last">
+                                    <div class="item-inner">
+                                        <a class="product-image" title="Product Title Here" ref=" single_product.html"><img alt="Product Title Here" src="~/@item.product.Image"> </a>
+                                        <div class="product-details">
+                                            <div class="access">
+                                                <a class="jtv-btn-remove" onclick="del(@(item.product.ID),'@(item.product.Name)')" title="Remove This Item" href="#">Remove</a>
+                                            </div>
+                                            <p class="product-name"><a href="#">@item.product.Name</a> </p>
+                                            <strong>@item.Quantity</strong> x <span class="price">@dao.formatNumber(item.product.PromotionPrice)</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+
+                    }
+                    else
+                    {
+                        <center style="padding-top:20px">Không có sản phẩm nào</center>
+                    }
+                    <!--actions-->
+                    <div class="actions">
+                        <button style="width:85px" class="btn-checkout" title="Checkout" type="button"><span>thanh toán</span> </button>
+                        <a style="width:105px;margin-left:15px" href="@Url.Action("Index","Cart")" class="view-cart"><span>Xem giỏ hàng</span></a>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+
+</div>

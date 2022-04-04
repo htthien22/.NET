@@ -1,0 +1,139 @@
+﻿<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+@{
+    ViewBag.Title = "Đăng Ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div id="page">
+
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li class="home"> <a title="Go to Home Page" href="@Url.Action("Index","Home")">Trang chủ</a> <span>/</span> </li>
+                        <li class="category1601"> <strong>Đăng Ký</strong> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main-container -->
+    <div class="main-container col2-right-layout">
+        <div class="main container">
+            <div class="row">
+                <section class="col-sm-6 wow">
+                    <div class="col-main">
+                        <div class="static-contain">
+                            <fieldset class="group-select">
+                                <ul>
+                                    <li id="billing-new-address-form">
+                                        <fieldset>
+
+                                            <input type="hidden" name="billing[address_id]" value="" id="billing:address_id">
+                                            <ul>
+                                                <li>
+                                                    <label for="billing:name">Tên đăng nhập <span class="required">*</span></label>
+                                                    <br>
+                                                    <input type="text" title="Street Address" name="billing[name][]" id="txtName" value="" class="input-text required-entry">
+                                                </li>
+                                                <li>
+                                                    <label for="billing:email">Mật Khẩu <span class="required">*</span></label>
+                                                    <br>
+                                                    <input type="password" name="txtPassWord" id="txtPassWord" value="" title="" class="input-text required-entry">
+                                                </li>
+                                                <li>
+                                                    <label for="billing:email">Nhập lại mật khẩu <span class="required">*</span></label>
+                                                    <br>
+                                                    <input type="password" name="txtRePassWord" id="txtRePassWord" value="" title="Email Address" class="input-text required-entry">
+                                                </li>
+
+                                                <li class="">
+                                                    <label for="comment">Số điện thoại<em class="required">*</em></label>
+                                                    <br>
+                                                    <div style="float:none" class="">
+                                                        <input type="tel" name="comment" style="margin: 6px 10px 6px 0px; width: 400px;" id="txtPhone" title="Comment" class="required-entry input-text" cols="5" rows="3"></input>
+                                                    </div>
+                                                </li>
+                                                <li class="">
+                                                    <label for="comment">Email<em class="required">*</em></label>
+                                                    <br>
+                                                    <div style="float:none" class="">
+                                                        <input type="email" name="comment" style="margin: 6px 10px 6px 0px; width: 400px;" id="txtEmail" title="Comment" class="required-entry input-text" cols="5" rows="3"></input>
+                                                    </div>
+                                                </li>
+                                                <li class="">
+                                                    <label for="comment"><em class="required"></em></label>
+                                                    <br>
+                                                    <div style="float:none" class="">
+                                                        <div class="g-recaptcha" data-sitekey="6LeiCvYUAAAAACi41jIERnffn20YK-L9-i7PCEjV"></div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </fieldset>
+                                    </li>
+
+                                    <div class="buttons-set">
+                                        <button id="btnSend" onclick="Register()" type="submit" title="Submit" class="button submit"> <span> Đăng Ký </span> </button>
+                                    </div>
+                                </ul>
+                            </fieldset>
+                        </div>
+                    </div>
+                </section>
+                <aside class="col-right sidebar col-sm-6 wow">
+                    <div style="border:0px" class="block block-company">
+                        <div style="border:0px" class="block-title">tạo tài khoản </div>
+                        <div>
+                            Tạo tài khoản để theo dõi đơn hàng, <br /> lưu
+                            danh sách sản phẩm yêu thích, nhận
+                            nhiều ưu đãi hấp dẫn.
+                        </div>
+                        <div class="map" id="mapCanvas">
+                            <img src="~/Content/HomeShop/images/vn.jpg" />
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+    <!--End main-container -->
+</div>
+<script>
+    function Register() {
+        var name = $('#txtName').val();
+        var pw = $('#txtPassWord').val();
+        var rpw = $('#txtRePassWord').val();
+        var phone = $('#txtPhone').val();
+        var email = $('#txtEmail').val();
+
+        $.ajax({
+            url: '/User/Register',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                name: name,
+                pw: pw,
+                rpw: rpw,
+                phone: phone,
+                email: email
+            },
+            success: function (res) {
+                if (res.status == true) {
+                    swal("Thông báo", res.noti, "success");
+                    resetForm();
+                } else {
+                    setTimeout(swal("Thông báo", res.noti, "error"), 1000);
+                }
+            }
+        });
+    }
+    function resetForm() {
+        $('#txtName').val('');
+        $('#txtPassWord').val('');
+        $('#txtRePassWord').val('');
+        $('#txtPhone').val('');
+        $('#txtEmail').val('');
+    }
+
+</script>

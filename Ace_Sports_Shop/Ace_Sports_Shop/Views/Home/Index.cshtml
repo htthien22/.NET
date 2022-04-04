@@ -1,0 +1,329 @@
+﻿@model List<Model.Entity.Tbl_Product>
+@using Model.DAO
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ProductDAO dao = new ProductDAO();
+    var fb = (List<Model.Entity.Tbl_Product>)ViewBag.fb;
+
+}
+<div class="our-features-box hidden-xs">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3 col-xs-12 col-sm-6">
+                <div class="feature-box first">
+                    <i class="icon-plane icons"></i>
+                    <div class="content">
+                        <h3>Giao Hàng Nhanh & Miễn Phí</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12 col-sm-6">
+                <div class="feature-box">
+                    <i class="icon-earphones-alt icons"></i>
+                    <div class="content">
+                        <h3>Hỗ trợ 24/7 cho người dùng</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12 col-sm-6">
+                <div class="feature-box">
+                    <i class="icon-like icons"></i>
+                    <div class="content">
+                        <h3>100% Đảm Bảo Sự Hài Lòng</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-xs-12 col-sm-6">
+                <div class="feature-box last">
+                    <i class="icon-tag icons"></i>
+                    <div class="content">
+                        <h3>Giảm Giá Ưu Đãi</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- JTV Home Slider -->
+<div class="jtv-slideshow">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9 col-md-push-3 col-sm-12">
+                <div id='jtv-rev_slider_wrapper' class='rev_slider_wrapper fullwidthbanner-container'>
+                    <div id='jtv-rev_slider' class='rev_slider fullwidthabanner'>
+                        <ul>
+                            <li data-transition='fade' data-slotamount='7' data-masterspeed='1000' data-thumb='~/Content/HomeShop/images/slider/slide-img1.jpg'>
+                                <img src="~/Content/HomeShop/images/slider/test.jpg" alt="slide-img" data-bgposition='left top' data-bgfit='cover' data-bgrepeat='no-repeat' />
+                                <div class="info">
+                                    <div class='tp-caption sfb  tp-resizeme ' data-endspeed='500' data-speed='500' data-start='1500' data-easing='Linear.easeNone' data-splitin='none' data-splitout='none' data-elementdelay='0.1' data-endelementdelay='0.1' style='z-index:4;max-width:auto;max-height:auto;white-space:nowrap;'><a href='#' class="jtv-shop-now-btn">Mua Ngay</a> </div>
+                                </div>
+                            </li>
+                            <li data-transition='fade' data-slotamount='7' data-masterspeed='1000' data-thumb='~/Content/HomeShop/images/slider/slide-img2.jpg'>
+                                <img src="~/Content/HomeShop/images/slider/test2.jpg" alt="slide-img" data-bgposition='left top' data-bgfit='cover' data-bgrepeat='no-repeat' />
+                                <div class="info">
+                                    <div class='tp-caption sfb  tp-resizeme ' data-endspeed='500' data-speed='500' data-start='1500' data-easing='Linear.easeNone' data-splitin='none' data-splitout='none' data-elementdelay='0.1' data-endelementdelay='0.1' style='z-index:4;max-width:auto;max-height:auto;white-space:nowrap;'><a href='#' class="jtv-shop-now-btn">Mua Ngay</a> </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!-- end JTV Home Slider -->
+            <!-- hot deal products -->
+            <div class="col-md-3 hot-deal col-md-pull-9 col-sm-5">
+                <div class="slider-items-products">
+                    <div id="hot-deal-slider" class="product-flexslider hidden-buttons">
+                        <div class="slider-items slider-width-col4">
+
+                            @foreach (var item in Model)
+                            {
+                                var urll = "san-pham/" + item.MetaTitle + "-" + item.ID;
+                                <div class="item">
+                                    <div class="item-inner">
+                                        <div class="item-img">
+                                            <div class="item-img-info">
+
+                                                <a href="@urll" title="" class="product-image"> <img src="@item.Image" ></a>
+                                                <div class="hot-label hot-top-left">-@dao.sale(item.Price, item.PromotionPrice)%</div>
+                                                <div style="margin-left:-45px" class="jtv-box-hover">
+                                                    <ul class="add-to-links">
+                                                        <li><a class="link-quickview" href="" onclick="quick(@item.ID)"><i class="icon-magnifier-add icons"></i><span class="hidden">Quick View</span></a></li>
+                                                        <li><a class="link-wishlist" href="wishlist.html"><i class="icon-heart icons"></i><span class="hidden">Wishlist</span></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="item-info">
+                                            <div class="info-inner">
+                                                <div class="item-title"> <a href="single_product.html" title="Product Title Here"> @item.Name</a></div>
+                                                <div class="item-content">
+                                                    <div class="rating"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> <i class="fa fa-star-o"></i> </div>
+                                                    <div class="item-price">
+                                                        <div class="price-box">
+                                                            <span class="regular-price">
+                                                                <span class="price" style="text-decoration:line-through;opacity:0.5;font-size: 13px;font-weight:500;color:black;">@dao.formatNumber(item.Price) </span>
+                                                                <span class="price">@dao.formatNumber(item.PromotionPrice) </span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="action">
+                                                        <a href="@urll"><button data-original-title="Add to Cart" title="" type="button" class="button btn-cart"><span>xem chi tiết</span> </button></a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="jtv-box-timer">
+                                                <div class="countbox_1 timer-grid"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="jtv-top-banner">
+    <div class="container">
+        <div class="imgbox"><img src="~/Content/HomeShop/images/banner1.jpg" alt=""></div>
+        <div class="jtv-cont-box">
+            <h3>
+                QUẦN ÁO <br>
+                BÓNG ĐÁ
+            </h3>
+            <div class="jtv-line-bg"></div>
+            <p>AceSporter là nơi bạn có thể đặt áo bóng đá với giá tốt nhất mà bạn không thể bỏ qua…</p>
+        </div>
+        <div class="imgbox"><img src="~/Content/HomeShop/images/banner2.jpg" alt=""></div>
+        <div class="jtv-cont-box2">
+            <h3>
+                ĐỒ TẬP
+                <br>
+                GYM
+            </h3>
+            <div class="jtv-line-bg"></div>
+            <p>Những bộ đồ tập GYM nam sành điệu giúp việc luyện tập của bạn hiệu quả và chuyên nghiệp hơn !</p>
+        </div>
+        <div class="imgbox"><img src="~/Content/HomeShop/images/banner3.jpg" alt=""></div>
+        <div class="jtv-cont-box3">
+            <h3>
+                ĐỒ TẬP <br>
+                YOGA
+            </h3>
+            <div class="jtv-line-bg"></div>
+            <p>Nơi duy nhất mà bạn có thể mua đồ tập Yoga chất lượng được bảo hành lên tới 12 tháng.</p>
+        </div>
+    </div>
+</div>
+<div class="content-page">
+    <div class="container">
+        <!-- Product Tabs-->
+        <div class="category-product">
+            <div class="navbar nav-menu">
+                <div class="navbar-collapse">
+                    <div class="jtv-title">
+                        <h2>Sản Phẩm</h2>
+                    </div>
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a data-toggle="tab" href="#tab-1">Đồ Bóng Đá</a> </li>
+                        <li><a data-toggle="tab" href="#tab-3">Đồ Tập Gym</a> </li>
+                        <li><a data-toggle="tab" href="#tab-4">Đồ tập Yoga</a> </li>
+                        <li><a data-toggle="tab" href="#tab-5">Phụ Kiện</a> </li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+
+            </div>
+            @{
+                var url = "/do-bong-da-" + 1;
+                var url1 = "/do-tap-gym-" + 3;
+                var url2 = "/do-tap-yoga-" + 2;
+                var url3 = "/phu-kien-" + 4;
+            }
+            <div class="tab-container">
+                <!-- tab product -->
+                <div class="tab-panel active" id="tab-1">
+                    <div class="category-products">
+                        @{ Html.RenderAction("ProductFB", "Product"); }
+                        <center> <div class="row"><a href="@url" style="color:#009ce9;border:1px #009ce9 solid" class="view-more">XEM THÊM</a></div></center>
+                    </div>
+                </div>
+                <!-- tab product -->
+                <div class="tab-panel" id="tab-3">
+                    <div class="category-products">
+                        @{ Html.RenderAction("ProductGym", "Product"); }
+                        <center> <div class="row"><a href="@url1" style="color:#009ce9;border:1px #009ce9 solid" class="view-more">XEM THÊM</a></div></center>
+                    </div>
+                </div>
+                <div class="tab-panel" id="tab-4">
+                    <div class="category-products">
+                        @{ Html.RenderAction("ProductYoga", "Product"); }
+                        <center> <div class="row"><a href="@url2" style="color:#009ce9;border:1px #009ce9 solid" class="view-more">XEM THÊM</a></div></center>
+                    </div>
+                </div>
+                <div class="tab-panel" id="tab-5">
+                    <div class="category-products">
+                        @{ Html.RenderAction("ProductPK", "Product"); }
+                        <center> <div class="row"><a href="@url3" style="color:#009ce9;border:1px #009ce9 solid;" class="view-more">XEM THÊM</a></div></center>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- jtv bottom banner section -->
+
+<div class="jtv-testimonial-block">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12" data-wow-delay="0.2s">
+                <div class="block-title">
+                    <h2>
+                        mọi người nhận xét gì
+                    </h2>
+                    <img src="" />
+                </div>
+                <div class="carousel slide" data-ride="carousel" id="quote-carousel">
+                    <!-- Bottom Carousel Indicators -->
+                    <ol class="carousel-indicators">
+                        <li data-target="#quote-carousel" data-slide-to="0"><img class="img-responsive " src="~/Content/HomeShop/images/avatar.jpg" alt=""> </li>
+                        <li data-target="#quote-carousel" data-slide-to="1"><img class="img-responsive" src="~/Content/HomeShop/images/avatar.jpg" alt=""> </li>
+                        <li data-target="#quote-carousel" data-slide-to="2" class="active"><img class="img-responsive" src="~/Content/HomeShop/images/avatar.jpg" alt=""> </li>
+                        <li data-target="#quote-carousel" data-slide-to="3"><img class="img-responsive" src="~/Content/HomeShop/images/avatar.jpg" alt=""> </li>
+                        <li data-target="#quote-carousel" data-slide-to="4"><img class="img-responsive" src="~/Content/HomeShop/images/avatar.jpg" alt=""> </li>
+                    </ol>
+
+                    <!-- Carousel Slides / Quotes -->
+                    <div class="carousel-inner text-center">
+
+                        <!-- Quote 1 -->
+                        <div class="item">
+                            <blockquote>
+                                <div class="row">
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <p> test</p>
+                                        <div class="holder-info"> <strong class="name">test</strong> </div>
+                                    </div>
+                                </div>
+                            </blockquote>
+                        </div>
+                        <!-- Quote 2 -->
+                        <div class="item">
+                            <blockquote>
+                                <div class="row">
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <p>test</p>
+                                        <div class="holder-info"><strong class="name">test</strong> </div>
+                                    </div>
+                                </div>
+                            </blockquote>
+                        </div>
+                        <!-- Quote 3 -->
+                        @foreach (var i in ViewBag.rate)
+                        {
+                            <div class="item active">
+                                <blockquote>
+                                    <div class="row">
+                                        <div class="col-sm-8 col-sm-offset-2">
+                                            <p>@i.Content</p>
+                                            <div class="holder-info"> <strong class="name">TEST</strong> </div>
+                                        </div>
+                                    </div>
+                                </blockquote>
+                            </div>
+                        }
+                        <!-- Quote 4 -->
+                        <div class="item">
+                            <blockquote>
+                                <div class="row">
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <p>test</p>
+                                        <div class="holder-info"> <strong class="name">test</strong> </div>
+                                    </div>
+                                </div>
+                            </blockquote>
+                        </div>
+                        <!-- Quote 5 -->
+                        <div class="item">
+                            <blockquote>
+                                <div class="row">
+                                    <div class="col-sm-8 col-sm-offset-2">
+                                        <p>test</p>
+                                        <div class="holder-info"><strong class="name">test</div>
+                                    </div>
+                                </div>
+                            </blockquote>
+                        </div>
+                    </div>
+                    <!-- Carousel Buttons Next/Prev -->
+                    <a data-slide="prev" href="#quote-carousel" class="left carousel-control"><i class="fa fa-chevron-left"></i></a> <a data-slide="next" href="#quote-carousel" class="right carousel-control"><i class="fa fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- bestsell Slider -->
+<section class="jtv-bestsell-section">
+    <div class="container">
+        <div class="slider-items-products">
+            <div class="bestsell-block">
+                <div class="jtv-block-inner">
+                    <div class="block-title">
+                        <h2>sản phẩm bán chạy</h2>
+                    </div>
+                </div>
+                <div id="bestsell-slider" class="product-flexslider hidden-buttons">
+                    <div class="slider-items slider-width-col4 products-grid block-content">
+                        @{ Html.RenderAction("ProductBest", "Product");}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End Bestsell Slider -->

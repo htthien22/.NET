@@ -1,0 +1,16 @@
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\Model.dll.config
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\Model.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\Model.pdb
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\EntityFramework.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\PagedList.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\PagedList.Mvc.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\EntityFramework.xml
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\PagedList.xml
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\bin\Release\PagedList.Mvc.xml
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Release\Model.csprojAssemblyReference.cache
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Release\Model.csproj.CoreCompileInputs.cache
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Release\Model.csproj.CopyComplete
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Release\Model.dll
+C:\Users\hoang\source\repos\Ace_Sports_Shop\Model\obj\Release\Model.pdb

@@ -1,0 +1,3 @@
+﻿function test() {
+    swal("yêu");
+}

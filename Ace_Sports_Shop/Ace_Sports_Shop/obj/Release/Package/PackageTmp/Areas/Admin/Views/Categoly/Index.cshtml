@@ -1,0 +1,236 @@
+﻿@model IEnumerable<Model.Entity.Tbl_ProductCategory>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+<script src="~/Content/sweet.js"></script>
+<h2>Danh mục sản phẩm</h2>
+<hr />
+<div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a class="btn btn-primary btn-default" onclick="show()" role="button">Thêm danh mục</a>
+        </div>
+        <div class="panel-body" style="width:100%;height:500px;overflow:auto;">
+            <div class="table-responsive">
+                <div id="dataTables-example_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <table style="font-size:13px;" class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">STT</th>
+                                        <th class="text-center">Tên danh mục</th>
+                                        <th class="text-center">Meta</th>
+                                        <th class="text-center">Ngày tạo</th>
+                                        <th class="text-right">Chức nănng</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @{ int i = 0;}
+                                    @foreach (var item in Model)
+                                    {
+                                        i++;
+                                    <tr class="ng-scope">
+                                        <td class="text-center"><a class="btn-link ng-binding">@i</a></td>
+                                        <td class="text-center ng-binding">@item.Name</td>
+                                        <td class="text-center ng-binding">@item.MetaTitle</td>
+                                        <td class="text-center ng-binding">@item.CreatedDate</td>
+                                        <td class="text-right">
+                                            <a onclick="CaEdt(@item.ID)" class="btn btn-xs btn-edit add-tooltip"><i class="fa fa-edit"></i></a>
+                                            <a onclick="CaDe(@item.ID)" class="btn btn-xs btn-danger add-tooltip"><i class="fa fa-times"></i></a>
+                                        </td>
+                                    </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.table-responsive -->
+        </div>
+        <!-- /.panel-body -->
+    </div>
+    <!-- /.panel -->
+</div>
+
+<div class="modal fade" id="createuser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Thêm danh mục</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span id="x" aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Tên danh mục:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="CaEdt" type="text" name="CaEdt" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                <button type="button" onclick="CaAdd()" class="btn btn-primary">Thêm</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModalEditU" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">Sửa thông tin danh mục</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span id="x" aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group row">
+                    <label class="col-sm-4 col-form-label">Tên danh mục:</label>
+                    <div class="col-sm-6">
+                        <input class="form-control" id="CaEdt" type="text" name="CaEdt" value="" />
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" onclick="EditU()" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function show() {
+        $('#createuser').modal('show');
+    }
+    function CaAdd() {
+        var name = $('#CaEdt').val();
+        $.ajax({
+            url: '/Admin/Categoly/Create',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                Name: name,
+            },
+            success: function (res) {
+                if (res.status == true) {
+                    swal(res.noti, {
+                        icon: "success",
+                    }).then(function () {
+                        $('#createuser').modal('hide');
+                        window.location.href = window.location.href
+                    });
+
+                } else {
+                    setTimeout(swal("Thông báo", res.noti, "error"), 300);
+                }
+            }
+        });
+    }
+    //delete order
+    function CaDe(id) {
+        swal({
+            title: "Bạn chắc chắn muốn xóa ?",
+            text: name,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/User/Delete",
+                        dataType: "json",
+                        data: { ID: id },
+                        success: function (response) {
+                            swal("Xóa thành công!", {
+                                icon: "success",
+                            }).then(function () {
+                                window.location.href = window.location.href
+                            });
+                        },
+                        failure: function (response) {
+                            swal(response.responseText);
+                        },
+                        error: function (response) {
+                            swal(response.responseText);
+                        }
+                    });
+
+                }
+            });
+    }
+
+
+    function GetCaEdt(ido) {
+        $.ajax({
+            url: '/Admin/Categoly/Edit',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                ID: ido,
+            },
+            success: function (res) {
+                if (res.status == true) {
+                    $('#myModalEditU').modal('show');
+                    $('#edtidd').val(res.ID);
+                    $('#edtuname').val(res.User);
+                    $('#edtpw').val(res.Pw);
+                    $('#edtname').val(res.Name);
+                    $('#edtsdt').val(res.Phone);
+                    $('#edtadd').text(res.Add);
+
+                } else {
+
+                    swal("Thông báo", "Thêm đơn hàng thất bại!", "error");
+                }
+            }
+        });
+
+    }
+    //edit post
+    function EditU() {
+        var u = $('#edtuname').val();
+        var pw = $('#edtpw').val();
+        var name = $('#edtname').val();
+        var phone = $('#edtsdt').val();
+        var add = $('#edtadd').text();
+        var stt = $('#stt').find(":selected").val();
+        $.ajax({
+            url: '/Admin/User/editUser',
+            type: 'POST',
+            dataType: 'json',
+            data: {
+                User: u,
+                Name: name,
+                Pw: pw,
+                Add: add,
+                Phone: phone,
+                Status: stt,
+            },
+            success: function (res) {
+                if (res.status == true) {
+                    swal("Cập nhật thành công!!", {
+                        icon: "success",
+                    }).then(function () {
+                        $('#myModalEdit').modal('hide');
+                        window.location.href = window.location.href
+                    });
+                } else {
+                    swal("Thông báo", "Thêm đơn hàng thất bại!", "error");
+                }
+            }
+        });
+
+    }
+</script>
+
+
+

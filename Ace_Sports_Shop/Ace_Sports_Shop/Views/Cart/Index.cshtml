@@ -1,0 +1,136 @@
+﻿@model List<Ace_Sports_Shop.Common.CartItem>
+@using Model.DAO
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var i = 0;
+    ProductDAO dao = new ProductDAO();
+}
+<section class="main-container col1-layout">
+    <div class="main container">
+        <div class="col-main">
+            <div class="shopping-cart-inner">
+                <div class="page-title">
+                    <h2>GIỎ HÀNG <p style="float:right;font-size:15px;" id="tb"></p></h2>
+
+                </div>
+                <div class="page-content">
+                    <div class="order-detail-content">
+                        @if (Model.Count > 0)
+                        {
+                            <table style="text-align:center;" class="table table-bordered table-responsive jtv-cart-summary">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center;">STT</th>
+                                        <th style="text-align:center;" class="cart_product">Sản phẩm</th>
+                                        <th style="text-align:center;">Mô tả</th>
+                                        <th style="text-align:center;">Đơn giá</th>
+                                        <th style="text-align:center;">Số lượng</th>
+                                        <th style="text-align:center;">Tổng</th>
+                                        <th class="action"><i class="fa fa-trash-o"></i></th>
+                                    </tr>
+                                </thead>
+
+                                @foreach (var item in Model)
+                                {
+                                    i++;
+                                    <tbody>
+                                        <tr id="tr-@item.product.ID">
+                                            <td>@i</td>
+                                            <td class="cart_product"><a href="#"><img src="@item.product.Image" alt="Product"></a></td>
+                                            <td class="cart_description">
+                                                <p class="product-name">@item.product.Name<a href="#"> </a></p>
+                                                <small class="cart_ref">Kích thước: @item.Size</small><br>
+                                                <small><a href="#">Màu sắc : @item.Color</a></small><br>
+                                            </td>
+                                            <td style="text-align:center;" class="price"><span>@dao.formatNumber(item.product.PromotionPrice)</span></td>
+                                            <td class="qty">
+                                                <input class="form-control input-sm" min="1" onchange="UpdateQuantity(@item.product.ID)" name="qty" id="pro_@item.product.ID" type="number" value="@item.Quantity">
+                                                <a onClick="var result = document.getElementById('pro_'+@item.product.ID); var qty = result.value; if( !isNaN( qty ) &amp;&amp; qty &gt; 1 ) result.value--;return false;" class="reduced items-count"><i class="fa fa-minus"></i></a>
+                                                <a onClick="var result = document.getElementById('pro_'+@item.product.ID); var qty = result.value; if( !isNaN( qty )) result.value++;return false;" class="increase items-count" href="#"><i class="fa fa-plus"></i></a>
+
+                                            </td>
+                                            <td style="text-align:center;" class="price"><span>@dao.formatNumber((item.product.PromotionPrice * item.Quantity))</span></td>
+                                            <td class="action"><a class="btn btn-dropbox" onclick="del(@(item.product.ID),'@(item.product.Name)')">Delete item</a></td>
+
+                                        </tr>
+
+                                    </tbody>
+                                }
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3"><strong>Thành tiền</strong></td>
+                                        <td style="color:red;font-weight:400" colspan="2"><strong>@dao.formatNumber(Model.Sum(x => x.product.PromotionPrice * x.Quantity))</strong></td>
+                                    </tr>
+                                </tfoot>
+
+                            </table>
+                        }
+                        else
+                        {
+                            <div class="text-center"><h2>KHÔNG CÓ SẢN PHẨM NÀO TRONG GIỎ HÀNG</h2></div>
+                        }
+                        <div class="cart_navigation">
+                            <button class="button continue-shopping" onclick="location.href='@Url.Action("Index", "Home")'" title="Continue shopping" type="button"><span>Tiếp tục mua hàng</span></button>
+                            @if (Model.Count > 0)
+                            {<a href="@Url.Action("Checkout","Cart")"><button class="button btn-proceed-checkout" title="Proceed to Checkout" type="button"><span>Đặt hàng</span></button></a>}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="crosssel">
+                <div class="jtv-title">
+                    <h2>Có thể bạn sẽ thích</h2>
+                </div>
+                <div class="category-products">
+                    <ul class="products-grid">
+                        @foreach (var item in ViewBag.cartP)
+                        {
+                            <li class="item col-lg-3 col-md-3 col-sm-4 col-xs-6">
+                                <div class="item-inner">
+                                    <div class="item-img">
+                                        <div class="item-img-info">
+                                            <a class="product-image" title="Product Title Here" href="/san-pham/@item.MetaTitle-@item.ID"> <img alt="Product Title Here" src="@item.Image"> </a>
+                                            <div class="new-label new-top-left">Mới</div>
+                                            <div class="jtv-box-hover">
+                                                <ul class="add-to-links">
+                                                    <li><a class="link-quickview" href="quick_view.html"><i class="icon-magnifier-add icons"></i><span class="hidden">Quick View</span></a></li>
+                                                    <li><a class="link-wishlist" href="wishlist.html"><i class="icon-heart icons"></i><span class="hidden">Wishlist</span></a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="item-info">
+                                        <div class="info-inner">
+                                            <div class="item-title"> <a title="Product Title Here" href="/san-pham/@item.MetaTitle-@item.ID">@item.Name </a> </div>
+                                            <div class="item-content">
+                                                <div class="rating">
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                    <i class="fa fa-star-o"></i>
+                                                </div>
+                                                <div class="item-price">
+                                                    <div class="price-box">
+                                                        <span class="regular-price">
+                                                            <p class="old-price"> <span class="price-label"></span> <span class="price"> @dao.formatNumber(item.Price) </span> </p>
+                                                            <p class="special-price"> <span class="price-label"></span> <span class="price"> @dao.formatNumber(item.PromotionPrice) </span> </p>
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="action">
+                                                    <button class="button btn-cart" type="button" title="" data-original-title="Add to Cart"><span>xem chi tiết</span> </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

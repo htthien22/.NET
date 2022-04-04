@@ -1,0 +1,121 @@
+﻿@model Model.Entity.Tbl_Contact
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    #mapCanvas {
+        height: 600px;
+    }
+</style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBCHy7MUTk1eb8TB-Yn_G6z3MJVD_c0xxw"></script>
+    <script src="~/Content/Controller/ContactJS.js"></script>
+    <script>
+
+        // This example displays a marker at the center of Australia.
+        // When the user clicks the marker, an info window opens.
+        //21.046300, 105.793266
+        function initMap() {
+            var uluru = { lat: 21.818120, lng: 105.207953 };
+            var map = new google.maps.Map(document.getElementById('mapCanvas'), {
+                zoom: 18,
+                center: uluru
+            });
+
+            var contentString = 'Ace-Sport Số 212, đường Quang Trung, TP Tuyên Quang';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map,
+                title: 'Địa chỉ'
+            });
+            marker.addListener('click', function () {
+                infowindow.open(map, marker);
+            });
+        }
+        google.maps.event.addDomListener(window, 'load', initMap);
+    </script>
+
+<div id="page">
+
+    <div class="breadcrumbs">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <ul>
+                        <li class="home"> <a title="Go to Home Page" href="@Url.Action("Index","Home")">Trang chủ</a> <span>/</span> </li>
+                        <li class="category1601"> <strong>Liên hệ</strong> </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- main-container -->
+    <div class="main-container col2-right-layout">
+        <div class="main container">
+            <div class="row">
+                <section class="col-sm-6 wow">
+                    <div class="col-main">
+                        <div class="page-title">
+                            <h2>LIÊN hệ</h2>
+                        </div>
+                        <div class="static-contain">
+                            <fieldset class="group-select">
+                                <ul>
+                                    <li id="billing-new-address-form">
+                                        <fieldset>
+
+                                            <input type="hidden" name="billing[address_id]" value="" id="billing:address_id">
+                                            <ul>
+                                                <li>
+                                                    <label for="billing:name">Tên <span class="required">*</span></label>
+                                                    <br>
+                                                    <input  type="text" title="Street Address" name="billing[name][]" id="txtName" value="" class="input-text required-entry">
+                                                </li>
+                                                <li>
+                                                    <label for="billing:email">SDT <span class="required">*</span></label>
+                                                    <br>
+                                                    <input type="tel" name="billing[phone]" id="txtMobile" value="" title="" class="input-text required-entry">
+                                                </li>
+                                                <li>
+                                                    <label for="billing:email">Email <span class="required">*</span></label>
+                                                    <br>
+                                                    <input type="text" name="billing[email]" id="txtEmail" value="" title="Email Address" class="input-text required-entry">
+                                                </li>
+
+                                                <li class="">
+                                                    <label for="comment">Nội dung<em class="required">*</em></label>
+                                                    <br>
+                                                    <div style="float:none" class="">
+                                                        <textarea name="comment" style="margin: 6px 10px 6px 0px; width: 400px; height: 132px;" id="txtContent" title="Comment" class="required-entry input-text" cols="5" rows="3"></textarea>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </fieldset>
+                                    </li>
+                                    <input type="text" name="hideit" id="hideit" value="aaaaaaaa" style="display:none !important;">
+                                    <div class="buttons-set">
+                                        <button id="btnSend" onclick="Contact()" type="submit" title="Submit" class="button submit"> <span> GỬI </span> </button>
+                                    </div>
+                                </ul>
+                            </fieldset>
+                        </div>
+                    </div>
+                </section>
+                <aside class="col-right sidebar col-sm-6 wow">
+                    <div class="block block-company">
+                        <div class="block-title">bản đồ </div>
+                        <div class="map" id="mapCanvas"></div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+    <!--End main-container -->
+</div>
+
